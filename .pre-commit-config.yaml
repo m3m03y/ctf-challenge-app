@@ -10,3 +10,15 @@ repos:
         args: ["-C", "./ctf-server", "-f", "requirements.txt", "-o", "./ctf-server/requirements.txt"]
     -   id: poetry-install
         args: ["-C", "./ctf-server"]
+-   repo: https://github.com/psf/black
+    rev: 22.12.0
+    hooks:
+    -   id: black
+        args: ['--config=./pyproject.toml']
+-   repo: local
+    hooks:
+    -   id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
