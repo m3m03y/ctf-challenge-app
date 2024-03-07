@@ -1,0 +1,12 @@
+repos:
+-   repo: https://github.com/python-poetry/poetry
+    rev: '1.0'
+    hooks:
+    -   id: poetry-check
+        args: ["-C", "./ctf-server"]
+    -   id: poetry-lock
+        args: ["-C", "./ctf-server"]
+    -   id: poetry-export
+        args: ["-C", "./ctf-server", "-f", "requirements.txt", "-o", "./ctf-server/requirements.txt"]
+    -   id: poetry-install
+        args: ["-C", "./ctf-server"]
