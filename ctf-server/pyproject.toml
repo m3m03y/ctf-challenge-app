@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "ctf-server"
+version = "0.1.0"
+description = ""
+authors = ["memoey <git@memoey.icu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
