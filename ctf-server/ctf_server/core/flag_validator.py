@@ -1,8 +1,10 @@
 """Flag Validator module"""
+
 import hashlib
 import re
 
 _FLAG_FORMAT = r"^flag\{[a-z0-9_]*\}"
+
 
 class FlagValidator:
     """Validates flags provided by user using md5"""
@@ -38,7 +40,7 @@ class FlagValidator:
         """Returns md5 of given word
 
         Args:
-            word (str): string to hash 
+            word (str): string to hash
 
         Returns:
             str: md5 hash of word

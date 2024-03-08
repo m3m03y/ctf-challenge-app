@@ -2,6 +2,7 @@
 
 from enum import Enum
 
+
 class State(str, Enum):
     """Class for keeping flag with challange"""
 

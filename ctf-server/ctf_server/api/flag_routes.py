@@ -1,11 +1,11 @@
 """Flag endpoints"""
 
+import logging
+import fastapi
+from fastapi import Response, status
 from ctf_server.model.flag import Flag
 from ctf_server.model.state import State
-from fastapi import Response, status
-import logging
 from ctf_server.core.flag_validator import FlagValidator
-import fastapi
 
 router = fastapi.APIRouter()
 
