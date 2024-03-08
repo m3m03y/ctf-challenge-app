@@ -3,9 +3,9 @@
 from __future__ import annotations
 import re
 import logging
-from enum import Flag
 from ctf_server.core.flag_validator_strategy import FlagValidatorStrategy
 from ctf_server.model.state import State
+from ctf_server.model.flag import Flag
 
 _FLAG_FORMAT = r"^flag\{[a-z0-9_]*\}"
 
