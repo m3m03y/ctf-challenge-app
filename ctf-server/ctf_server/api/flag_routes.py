@@ -1,23 +1,20 @@
 """Flag endpoints"""
 
-import logging
 import fastapi
 from fastapi import Response, status
 from ctf_server.model.flag import Flag
 from ctf_server.model.state import State
 from ctf_server.core.flag_validator import FlagValidator
+from ctf_server.core.flag_validator_strategy import PlainInputPlainStoredValueStrategy
 
 router = fastapi.APIRouter()
 
 
-@router.post("/flag", status_code=200)
+@router.post("/flag", status_code=status.HTTP_200_OK)
 async def submit_flag(flag: Flag, response: Response) -> dict:
     """Handles flag submit"""
-    is_valid = FlagValidator.validate_flag_format(flag.value)
-    if not is_valid:
-        response.status_code = status.HTTP_201_CREATED
-        logging.debug("SUBMIT_FLAG::Provided flag with invalid format: %s", flag)
-        return {"state": State.INVALID_FORMAT}
-    is_valid = FlagValidator.compare_word_hashes(flag.value, "flag{test}")
-    logging.debug("SUBMIT_FLAG::Provided flag: %s", flag)
-    return {"state": State.VALID_FLAG} if is_valid else {"state": State.INVALID_FLAG}
+    flag_validator = FlagValidator(PlainInputPlainStoredValueStrategy())
+    state = flag_validator.is_valid_flag(flag)
+    if state in (State.INVALID_FORMAT, State.INVALID_FLAG):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+    return {"state": State.VALID_FLAG}
