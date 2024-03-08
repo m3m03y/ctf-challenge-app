@@ -20,6 +20,19 @@ class Crypto:
         return cls.hash_to_md5(provided_word) == cls.hash_to_md5(actual_word)
 
     @classmethod
+    def compare_word_with_hash(cls, provided_word: str, md5_hash: str) -> bool:
+        """Compares word with md5 value (case sensitive)
+
+        Args:
+            provided_word (str): flag given by user
+            md5_hash (str): stored hash value
+
+        Returns:
+            bool: true provided word hash matches stored md5 hash value
+        """
+        return cls.hash_to_md5(provided_word) == md5_hash
+
+    @classmethod
     def hash_to_md5(cls, word: str) -> str:
         """Returns md5 of given word
 
