@@ -2,12 +2,12 @@
 
 import pytest
 from ctf_server.core.flag_validator import FlagValidator
-
+from ctf_server.core.flag_validator_strategy import PlainInputPlainStoredValueStrategy
 
 class TestFlagValidator:
     """Tests for flag validator functions"""
 
-    flag_validator: FlagValidator = FlagValidator()
+    flag_validator: FlagValidator = FlagValidator(PlainInputPlainStoredValueStrategy)
 
     @pytest.mark.parametrize(
         "flag",
