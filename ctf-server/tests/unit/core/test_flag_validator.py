@@ -17,11 +17,14 @@ class TestFlagValidator:
     @pytest.mark.parametrize(
         "flag",
         [
-            ("flag{test_123}"),
-            ("flag{test}"),
-            ("flag{t}"),
-            ("flag{test_123_asd}"),
-            ("flag{5361}"),
+            ("flag{f}"),
+            ("flag{_}"),
+            ("flag{1}"),
+            ("flag{flag}"),
+            ("flag{flag_}"),
+            ("flag{flag1}"),
+            ("flag{flag_1}"),
+            ("flag{multiple_words_flag}"),
         ],
     )
     def test_should_match_flag_format(self, flag: str) -> None:
@@ -31,15 +34,13 @@ class TestFlagValidator:
     @pytest.mark.parametrize(
         "flag",
         [
-            ("flag{test-123}"),
-            ("{test}"),
-            ("flag{t#@!}"),
-            ("flag{test-123_asd}"),
-            ("5361"),
-            ("test"),
-            ("test{1231251_123ad}"),
-            ("flag{#$}"),
-            ("flag{Contains_upper_letters}"),
+            ("flag{}"),
+            ("flag{-}"),
+            ("flag{#}"),
+            ("flag{Flag}"),
+            ("no_flag"),
+            (""),
+            ("flag{flag!}"),
         ],
     )
     def test_should_not_match_flag_format(self, flag: str) -> None:
