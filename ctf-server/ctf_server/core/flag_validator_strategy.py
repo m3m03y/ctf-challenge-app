@@ -4,7 +4,7 @@ import re
 from abc import ABC, abstractmethod
 from ctf_server.core.crypto import Crypto
 
-_FLAG_FORMAT = r"^flag\{[a-z0-9_]*\}"
+_FLAG_FORMAT = r"^flag\{[a-z0-9_]+\}"
 
 
 class FlagValidatorStrategy(ABC):
