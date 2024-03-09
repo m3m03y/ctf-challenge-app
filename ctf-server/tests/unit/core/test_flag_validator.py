@@ -1,7 +1,6 @@
 """Test flag validator module"""
 
 import pytest
-from ctf_server.model.flag import Flag
 from ctf_server.model.state import State
 from ctf_server.core.flag_validator import FlagValidator
 from ctf_server.core.flag_validator_strategy import (
