@@ -7,4 +7,5 @@ class Flag(BaseModel):
     """Class for keeping flag with challange"""
 
     value: str
-    task: int = 0
+    task_id: str
+    challange_id: str
