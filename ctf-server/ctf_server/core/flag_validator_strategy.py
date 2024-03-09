@@ -18,7 +18,7 @@ class FlagValidatorStrategy(ABC):
 
     def is_valid_format(self, flag: str) -> bool:
         """Check whether flag provided by user matches valid format"""
-        return re.fullmatch(_FLAG_FORMAT, flag)
+        return re.fullmatch(_FLAG_FORMAT, flag) is not None
 
 
 class PlainInputStoredHashedStrategy(FlagValidatorStrategy):
@@ -42,7 +42,7 @@ class PlainInputPlainStoredValueStrategy(FlagValidatorStrategy):
         return Crypto.compare_word_hashes(user_input, stored_value)
 
 
-class HashedInputHashedStoredValueStratedy(FlagValidatorStrategy):
+class HashedInputHashedStoredValueStrategy(FlagValidatorStrategy):
     """Handles comparision when both user input and stored value are md5 hash"""
 
     def is_provided_flag_and_stored_value_equal(
