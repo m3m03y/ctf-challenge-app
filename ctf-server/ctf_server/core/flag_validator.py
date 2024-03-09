@@ -3,17 +3,14 @@
 from __future__ import annotations
 import re
 import logging
-from ctf_server.core.flag_validator_strategy import FlagValidatorStrategy
+from ctf_server.core.flag_validator_strategy import FlagValidatorStrategy, PlainInputPlainStoredValueStrategy
 from ctf_server.model.state import State
 from ctf_server.model.flag import Flag
-
-_FLAG_FORMAT = r"^flag\{[a-z0-9_]*\}"
-
 
 class FlagValidator:
     """Validates flags provided by user using md5"""
 
-    def __init__(self, strategy: FlagValidatorStrategy) -> None:
+    def __init__(self, strategy: FlagValidatorStrategy = PlainInputPlainStoredValueStrategy()) -> None:
         self._strategy = strategy
 
     @property
@@ -35,9 +32,9 @@ class FlagValidator:
             bool: true if flag matches format
         """
         # flag_pattern = re.compile(_FLAG_FORMAT)
-        return re.fullmatch(_FLAG_FORMAT, flag)
+        return self.strategy.is_valid_format(flag)
 
-    def is_valid_flag(self, flag: Flag) -> State:
+    def is_valid_flag(self, flag: Flag, actual_flag: str) -> State:
         """
         Check whether provided by user flag is valid:
         - is in correct format
@@ -54,7 +51,7 @@ class FlagValidator:
             logging.debug("FLAG_VALIDATOR::Provided flag with invalid format: %s", flag)
             return State.INVALID_FORMAT
         is_valid = self.strategy.is_provided_flag_and_stored_value_equal(
-            flag.value, "flag{test}"
+            flag.value, actual_flag
         )
         logging.debug("FLAG_VALIDATOR::Provided flag: %s", flag)
         return State.VALID_FLAG if is_valid else State.INVALID_FLAG

@@ -14,7 +14,7 @@ router = fastapi.APIRouter()
 async def submit_flag(flag: Flag, response: Response) -> dict:
     """Handles flag submit"""
     flag_validator = FlagValidator(PlainInputPlainStoredValueStrategy())
-    state = flag_validator.is_valid_flag(flag)
+    state = flag_validator.is_valid_flag(flag, "flag{test}")
     if state in (State.INVALID_FORMAT, State.INVALID_FLAG):
         response.status_code = status.HTTP_400_BAD_REQUEST
     return {"state": state}
