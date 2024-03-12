@@ -26,7 +26,7 @@ async def create_flag(flag: Flag, response: Response) -> dict:
     flag = flag_service.create_flag(flag)
     if flag is None:
         response.status_code = status.HTTP_400_BAD_REQUEST
-    return {"flag": flag}
+    return {"error": "CREATE_FAILED" } if flag is None else {"flag": flag}
 
 @router.get("/flag/", status_code=status.HTTP_200_OK)
 async def get_flag(challange_id: str, task_id: str) -> dict:
@@ -39,3 +39,15 @@ async def get_all_flags() -> dict:
     """Handles flag submit"""
     flags = flag_service.get_all_flags()
     return {"flags": flags}
+
+@router.put("/flag", status_code=status.HTTP_200_OK)
+async def update_flag(flag: Flag) -> dict:
+    """Handles flag update"""
+    flag = flag_service.update_flag(flag)
+    return {"error": "UPDATE_FAILED" } if flag is None else {"flag": flag}
+
+@router.delete("/flag/", status_code=status.HTTP_200_OK)
+async def delete_flag(challange_id: str, task_id: str) -> dict:
+    """Handles flag delete"""
+    is_deleted = flag_service.remove_flag(challange_id, task_id)
+    return {"is_deleted": is_deleted}

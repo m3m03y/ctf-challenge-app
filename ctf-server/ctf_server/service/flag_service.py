@@ -92,7 +92,7 @@ class FlagService:
             return None
 
         flag_dto = FlagDto(
-            id=str(dt.timestamp(dt.now())),
+            id=str(int(dt.timestamp(dt.now()))),
             value=flag.value,
             challange_id=flag.challange_id,
             task_id=flag.task_id,
@@ -115,7 +115,10 @@ class FlagService:
         Returns:
             bool: returns True if flag was deleted successfully
         """
-        return self._storage_service.delete_flag(challange_id, task_id)
+        flag = self._storage_service.get_flag(challange_id, task_id)
+        if flag is None:
+            return False
+        return self._storage_service.delete_flag(challange_id, flag.id)
 
     def update_flag(self, flag: Flag):
         """Based on flag details provided by user updated existing object in storage
@@ -151,7 +154,7 @@ class FlagService:
             return None
 
         existing_flag.value = flag.value
-        flag_dto = self._storage_service.create_flag(existing_flag)
+        flag_dto = self._storage_service.update_flag(existing_flag)
         logging.debug("FLAG_SERVICE::Flag updated successfully")
         return Flag(
             value=flag_dto.value,

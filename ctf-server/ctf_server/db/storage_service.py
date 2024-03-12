@@ -2,7 +2,6 @@
 
 from abc import ABC, abstractmethod
 from ctf_server.db.dto.flag_dto import FlagDto
-from ctf_server.model.flag import Flag
 
 
 class StorageService(ABC):
@@ -25,5 +24,5 @@ class StorageService(ABC):
         """Update flag document based on flag id"""
 
     @abstractmethod
-    def delete_flag(self, challange_id: str, task_id: str) -> bool:
+    def delete_flag(self, challange_id: str, flag_id: str) -> bool:
         """Delete flag based on challange and task ids"""

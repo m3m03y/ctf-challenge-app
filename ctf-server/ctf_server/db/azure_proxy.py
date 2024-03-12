@@ -4,12 +4,12 @@ import logging
 from ctf_server.db.dto.flag_dto import FlagDto
 from ctf_server.db.storage_service import StorageService
 import ctf_server.config as config
-import azure.cosmos.documents as documents
 import azure.cosmos.cosmos_client as cosmos_client
 import azure.cosmos.exceptions as exceptions
 from azure.cosmos.container import ContainerProxy
 from azure.cosmos.database import DatabaseProxy
 from azure.cosmos.partition_key import PartitionKey
+
 
 class AzureProxy(StorageService):
     """Handles connection and working with Azure Cosmos DB"""
@@ -23,7 +23,7 @@ class AzureProxy(StorageService):
         self._client = self._get_client()
         self._database = self._get_or_create_database()
         self._container = self._get_or_create_container()
-        logging.debug("AZURE_PROXY::Database connection ready")
+        logging.info("AZURE_PROXY::Database connection ready")
 
     def _get_client(self) -> cosmos_client.CosmosClient:
         return cosmos_client.CosmosClient(
@@ -75,7 +75,9 @@ class AzureProxy(StorageService):
             )
         )
         if len(matching_flags) != 1:
+            logging.error("AZURE_PROXY::Count flags matching query: %d", len(matching_flags))
             return None
+        logging.debug("AZURE_PROXY::Flag successfully read from DB")
         return self._dict_to_dto(matching_flags[0])
 
     def get_all_flags(self) -> list[FlagDto]:
@@ -84,19 +86,32 @@ class AzureProxy(StorageService):
         flags_dtos = []
         for flag in flags:
             flags_dtos.append(self._dict_to_dto(flag))
+        logging.debug("AZURE_PROXY::Group of flag retireved from DB size = %d", len(flags_dtos))
         return flags_dtos
 
     def create_flag(self, flag: FlagDto) -> FlagDto:
         """Create flag for task and challange"""
         saved_flag = self._container.create_item(body=self._dto_to_dict(flag))
-        logging.debug("AZURE_PROXY::Flag saved correctly")
+        logging.debug("AZURE_PROXY::Flag saved correctly id=%s", saved_flag["id"])
         return self._dict_to_dto(saved_flag)
-    
+
     def update_flag(self, flag: FlagDto) -> FlagDto:
         """Update flag document based on flag id"""
+        flag_dict = self._dto_to_dict(flag)
+        updated_flag = self._container.replace_item(item=flag_dict["id"], body=flag_dict)
+        logging.debug("AZURE_PROXY::Flag with id=%s updated successfully", updated_flag["id"])
+        return self._dict_to_dto(updated_flag)
 
-    def delete_flag(self, challange_id: str, task_id: str) -> bool:
+
+    def delete_flag(self, challange_id: str, flag_id: str) -> bool:
         """Delete flag based on challange and task ids"""
+        try:
+            self._container.delete_item(item=flag_id, partition_key=challange_id)
+            logging.debug("AZURE_PROXY::Flag with id=%s successfully deleted", flag_id)
+            return True
+        except (exceptions.CosmosResourceNotFoundError, exceptions.CosmosHttpResponseError):
+            logging.error("AZURE_PROXY::Could not delete flag with id=%s", flag_id)
+            return False
 
     def _dto_to_dict(self, flag: FlagDto) -> dict:
         return {
