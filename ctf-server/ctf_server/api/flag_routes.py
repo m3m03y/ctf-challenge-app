@@ -5,11 +5,11 @@ from fastapi import Response, status
 from ctf_server.model.flag import Flag
 from ctf_server.model.state import State
 from ctf_server.db.azure_proxy import AzureProxy
-from ctf_server.core.flag_validator_strategy import PlainInputPlainStoredValueStrategy
+from ctf_server.core.flag_validator_strategy import PlainInputStoredHashedStrategy
 from ctf_server.service.flag_service import FlagService
 
 router = fastapi.APIRouter()
-flag_service = FlagService(AzureProxy(), PlainInputPlainStoredValueStrategy())
+flag_service = FlagService(AzureProxy(), PlainInputStoredHashedStrategy())
 
 @router.post("/submit-flag", status_code=status.HTTP_200_OK)
 async def submit_flag(flag: Flag, response: Response) -> dict:
