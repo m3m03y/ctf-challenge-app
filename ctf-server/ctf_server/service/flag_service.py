@@ -2,6 +2,7 @@
 
 import logging
 from datetime import datetime as dt
+from ctf_server.core.crypto import Crypto
 from ctf_server.core.flag_validator import FlagValidator
 from ctf_server.core.flag_validator_strategy import FlagValidatorStrategy
 from ctf_server.db.dto.flag_dto import FlagDto
@@ -93,7 +94,7 @@ class FlagService:
 
         flag_dto = FlagDto(
             id=str(int(dt.timestamp(dt.now()))),
-            value=flag.value,
+            value=Crypto.hash_to_md5(flag.value),
             challange_id=flag.challange_id,
             task_id=flag.task_id,
         )
@@ -153,7 +154,7 @@ class FlagService:
             )
             return None
 
-        existing_flag.value = flag.value
+        existing_flag.value = Crypto.hash_to_md5(flag.value)
         flag_dto = self._storage_service.update_flag(existing_flag)
         logging.debug("FLAG_SERVICE::Flag updated successfully")
         return Flag(
