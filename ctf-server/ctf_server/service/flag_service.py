@@ -156,6 +156,9 @@ class FlagService:
 
         existing_flag.value = Crypto.hash_to_md5(flag.value)
         flag_dto = self._storage_service.update_flag(existing_flag)
+        if flag_dto is None:
+            logging.debug("FLAG_SERVICE::Flag update failed")
+            return None
         logging.debug("FLAG_SERVICE::Flag updated successfully")
         return Flag(
             value=flag_dto.value,

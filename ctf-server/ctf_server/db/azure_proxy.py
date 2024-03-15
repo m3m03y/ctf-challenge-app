@@ -1,4 +1,4 @@
-"""Adapter for Azure Cosmo DB"""
+"""Proxy for Azure Cosmo DB"""
 
 import logging
 from ctf_server.db.dto.flag_dto import FlagDto
