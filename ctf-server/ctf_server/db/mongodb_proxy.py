@@ -10,9 +10,9 @@ from ctf_server.db.dto.flag_dto import FlagDto
 class MongodbProxy(StorageService):
     """Handles connection and flag management in Mongo DB"""
 
-    _CONNECTION_STRING = config.local_mongo["connection_string"]
-    _DATABASE_ID = config.local_mongo["database_id"]
-    _COLLECTION_ID = config.local_mongo["collection_id"]
+    _CONNECTION_STRING = config.mongo["connection_string"]
+    _DATABASE_ID = config.mongo["database_id"]
+    _COLLECTION_ID = config.mongo["collection_id"]
 
     def __init__(self) -> None:
         self._client = MongoClient(self._CONNECTION_STRING)

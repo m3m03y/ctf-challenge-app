@@ -16,8 +16,8 @@ class AzureProxy(StorageService):
 
     _HOST = config.azure_connection["host"]
     _MASTER_KEY = config.azure_connection["master_key"]
-    _DATABASE_ID = config.azure_dev["database_id"]
-    _CONTAINER_ID = config.azure_dev["container_id"]
+    _DATABASE_ID = config.azure["database_id"]
+    _CONTAINER_ID = config.azure["container_id"]
 
     def __init__(self) -> None:
         self._client = self._get_client()
