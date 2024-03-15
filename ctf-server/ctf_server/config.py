@@ -1,6 +1,5 @@
+"""Configuration file"""
 import os
-
-local_settings = {}
 
 azure_connection = {
     "host": os.environ.get(
@@ -20,4 +19,12 @@ azure_dev = {
 azure_prod = {
     "database_id": os.environ.get("COSMOS_DATABASE", "CtfChallange"),
     "container_id": os.environ.get("COSMOS_CONTAINER", "Flag"),
+}
+
+local_mongo = {
+    "connection_string": os.environ.get(
+        "MONGODB_CONNECTION_STRING", "mongodb://root:pass123@localhost:27017/"
+    ),
+    "database_id": os.environ.get("MONGODB_DATABASE", "CtfLocal"),
+    "collection_id": os.environ.get("MONGODB_COLLECTION", "Flag")
 }
