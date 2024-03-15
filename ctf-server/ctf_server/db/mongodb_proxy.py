@@ -57,7 +57,10 @@ class MongodbProxy(StorageService):
         updated_values = {"$set": {"value": flag.value}}
         update_result = self._collection.update_one(query, updated_values)
         if update_result.modified_count != 1:
-            logging.error("MONGODB_PROXY::Invalid updated flag count: %d", update_result.modified_count)
+            logging.error(
+                "MONGODB_PROXY::Invalid updated flag count: %d",
+                update_result.modified_count,
+            )
             return None
         updated_flag = self._collection.find(query)[0]
         logging.debug("MONGODB_PROXY::Flag with id=%s updated successfully", flag.id)
@@ -85,7 +88,7 @@ class MongodbProxy(StorageService):
             "value": flag_dto.value,
         }
 
-    def _document_to_dto(self, flag_doc, flag_id = None) -> FlagDto:
+    def _document_to_dto(self, flag_doc) -> FlagDto:
         return FlagDto(
             id=flag_doc["_id"],
             challange_id=flag_doc["challange_id"],
