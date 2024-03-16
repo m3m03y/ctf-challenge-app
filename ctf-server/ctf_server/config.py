@@ -18,7 +18,7 @@ azure = {
 
 mongo = {
     "connection_string": os.environ.get(
-        "MONGODB_CONNECTION_STRING", "mongodb://root:pass123@localhost:27017/"
+        "MONGODB_CONNECTION_STRING", "mongodb://<user>:<pass>@localhost:<port>"
     ),
     "database_id": os.environ.get("MONGODB_DATABASE", "CtfLocal"),
     "collection_id": os.environ.get("MONGODB_COLLECTION", "Flag")

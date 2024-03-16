@@ -14,8 +14,8 @@ class MongodbProxy(StorageService):
     _DATABASE_ID = config.mongo["database_id"]
     _COLLECTION_ID = config.mongo["collection_id"]
 
-    def __init__(self) -> None:
-        self._client = MongoClient(self._CONNECTION_STRING)
+    def __init__(self, connection_string: str = _CONNECTION_STRING) -> None:
+        self._client = MongoClient(connection_string)
         self._database = self._client[self._DATABASE_ID]
         self._collection = self._database[self._COLLECTION_ID]
         logging.info("MONGODB_PROXY::Database connection ready")
