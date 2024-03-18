@@ -5,8 +5,8 @@ from testcontainers.mongodb import MongoDbContainer
 from ctf_server.core.crypto import Crypto
 
 mongo_container = MongoDbContainer(image="mongo:latest")
-_database = "CtfLocal"
-_collection = "Flag"
+_DATABASE = "CtfLocal"
+_COLLECTION = "Flag"
 
 @pytest.fixture(scope="class", name="setup_mongo_container", autouse=True)
 def fixture_setup_mongo_container(request):
@@ -22,8 +22,8 @@ def fixture_setup_mongo_container(request):
 @pytest.fixture(scope="function", name="empty_flag_collection")
 def fixture_prepare_empty_flag_collection():
     """Clears flag collection"""
-    db = mongo_container.get_connection_client()[_database]
-    collection = db[_collection]
+    db = mongo_container.get_connection_client()[_DATABASE]
+    collection = db[_COLLECTION]
     collection.delete_many({})
     yield collection
 
