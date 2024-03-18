@@ -2,14 +2,19 @@
 
 from __future__ import annotations
 import logging
-from ctf_server.core.flag_validator_strategy import FlagValidatorStrategy, PlainInputPlainStoredValueStrategy
+from ctf_server.core.flag_validator_strategy import (
+    FlagValidatorStrategy,
+    PlainInputPlainStoredValueStrategy,
+)
 from ctf_server.model.state import State
-from ctf_server.model.flag import Flag
+
 
 class FlagValidator:
     """Validates flags provided by user using md5"""
 
-    def __init__(self, strategy: FlagValidatorStrategy = PlainInputPlainStoredValueStrategy()) -> None:
+    def __init__(
+        self, strategy: FlagValidatorStrategy = PlainInputPlainStoredValueStrategy()
+    ) -> None:
         self._strategy = strategy
 
     @property
