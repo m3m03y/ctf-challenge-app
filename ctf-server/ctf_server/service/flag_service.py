@@ -46,7 +46,6 @@ class FlagService:
         Returns:
             Flag: returns flag from storage
         """
-        logging.debug("Try to get a flag [challange_id=%s, task_id=%s]", challange_id, task_id)
         flag_dto = self._storage_service.get_flag(challange_id, task_id)
         if flag_dto is None:
             return None
@@ -58,7 +57,6 @@ class FlagService:
 
     def get_all_flags(self) -> list[Flag]:
         """Get all flags from storage"""
-        logging.debug("Try to get all")
         flag_dtos = self._storage_service.get_all_flags()
         flags = []
         for flag_dto in flag_dtos:
