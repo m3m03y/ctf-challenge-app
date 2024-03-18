@@ -2,6 +2,7 @@
 
 import pytest
 from testcontainers.mongodb import MongoDbContainer
+from ctf_server.core.crypto import Crypto
 
 mongo_container = MongoDbContainer(image="mongo:latest")
 _database = "CtfLocal"
@@ -27,31 +28,30 @@ def fixture_prepare_empty_flag_collection():
     yield collection
 
 
-@pytest.fixture(scope="function", name="_prepare_flag_collection_with_data")
-def fixture_prepare_prepopulated_flag_collection(_prepare_empty_flag_collection):
+@pytest.fixture(scope="function", name="flag_collection_with_data")
+def fixture_prepare_prepopulated_flag_collection(empty_flag_collection):
     """Prepare collection with three flags"""
-    db = mongo_container.get_connection_client()[_database]
-    collection = db[_collection]
+    collection = empty_flag_collection
     collection.insert_many(
         [
             {
                 "challange_id": "firstchallange",
                 "task_id": "firsttask",
-                "value": "flag{test_1}",
+                "value": Crypto.hash_to_md5("flag{test_1}"),
             },
             {
                 "challange_id": "firstchallange",
                 "task_id": "secondtask",
-                "value": "flag{test_2}",
+                "value": Crypto.hash_to_md5("flag{test_2}"),
             },
             {
                 "challange_id": "secondchallange",
                 "task_id": "firsttask",
-                "value": "flag{test_2_1}",
+                "value": Crypto.hash_to_md5("flag{test_2_1}"),
             },
         ]
     )
-
+    yield collection
 
 @pytest.fixture(scope="function", name="connection_url")
 def fixture_connection_url():
