@@ -143,17 +143,6 @@ class FlagService:
             logging.debug("FLAG_SERVICE::Flag update failed - flag does not exists")
             return None
 
-        if existing_flag.challange_id != flag.challange_id:
-            logging.debug(
-                "FLAG_SERVICE::Flag update failed - challange id cannot be updated"
-            )
-            return None
-        if existing_flag.task_id != flag.task_id:
-            logging.debug(
-                "FLAG_SERVICE::Flag update failed - task id cannot be updated"
-            )
-            return None
-
         existing_flag.value = Crypto.hash_to_md5(flag.value)
         flag_dto = self._storage_service.update_flag(existing_flag)
         if flag_dto is None:
