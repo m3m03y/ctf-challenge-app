@@ -21,17 +21,17 @@ class TestFlagRemove:
         expected_flags = [
             Flag(
                 value=Crypto.hash_to_md5("flag{test_1}"),
-                challange_id="firstchallange",
+                challenge_id="firstchallenge",
                 task_id="firsttask",
             ),
             Flag(
                 value=Crypto.hash_to_md5("flag{test_2}"),
-                challange_id="firstchallange",
+                challenge_id="firstchallenge",
                 task_id="secondtask",
             ),
             Flag(
                 value=Crypto.hash_to_md5("flag{test_2_1}"),
-                challange_id="secondchallange",
+                challenge_id="secondchallenge",
                 task_id="firsttask",
             ),
         ]
@@ -53,14 +53,14 @@ class TestFlagRemove:
         )
         expected_flag = Flag(
             value=Crypto.hash_to_md5("flag{test_1}"),
-            challange_id="firstchallange",
+            challenge_id="firstchallenge",
             task_id="firsttask",
         )
 
         initial_size = len(list(flag_collection_with_data.find()))
         assert initial_size == 3
         
-        flag = flag_service.get_flag(expected_flag.challange_id, expected_flag.task_id)
+        flag = flag_service.get_flag(expected_flag.challenge_id, expected_flag.task_id)
         assert expected_flag == flag
 
     def test_get_not_existing_flag_should_return_none(

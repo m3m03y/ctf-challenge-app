@@ -19,15 +19,15 @@ class TestFlagRemove:
 
         initial_size = len(list(flag_collection_with_data.find()))
         task_id = "firsttask"
-        challange_id = "firstchallange"
-        result = flag_service.remove_flag(challange_id, task_id)
+        challenge_id = "firstchallenge"
+        result = flag_service.remove_flag(challenge_id, task_id)
         assert result
 
         after_remove_size = len(list(flag_collection_with_data.find()))
         assert after_remove_size == initial_size - 1
 
         deleted_records = flag_collection_with_data.find(
-            {"challange_id": challange_id, "task_id": task_id}
+            {"challenge_id": challenge_id, "task_id": task_id}
         )
         assert len(list(deleted_records)) == 0
 
@@ -42,8 +42,8 @@ class TestFlagRemove:
 
         initial_size = len(list(flag_collection_with_data.find()))
         task_id = "secondtask"
-        challange_id = "secondchallange"
-        result = flag_service.remove_flag(challange_id, task_id)
+        challenge_id = "secondchallenge"
+        result = flag_service.remove_flag(challenge_id, task_id)
         assert not result
 
         after_remove_size = len(list(flag_collection_with_data.find()))

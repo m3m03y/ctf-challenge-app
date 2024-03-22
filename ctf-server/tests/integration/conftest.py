@@ -35,17 +35,17 @@ def fixture_prepare_prepopulated_flag_collection(empty_flag_collection):
     collection.insert_many(
         [
             {
-                "challange_id": "firstchallange",
+                "challenge_id": "firstchallenge",
                 "task_id": "firsttask",
                 "value": Crypto.hash_to_md5("flag{test_1}"),
             },
             {
-                "challange_id": "firstchallange",
+                "challenge_id": "firstchallenge",
                 "task_id": "secondtask",
                 "value": Crypto.hash_to_md5("flag{test_2}"),
             },
             {
-                "challange_id": "secondchallange",
+                "challenge_id": "secondchallenge",
                 "task_id": "firsttask",
                 "value": Crypto.hash_to_md5("flag{test_2_1}"),
             },

@@ -22,11 +22,11 @@ class TestFlagCreate:
         )
 
         flag = Flag(
-            value="flag{test}", task_id="firsttask", challange_id="firstchallange"
+            value="flag{test}", task_id="firsttask", challenge_id="firstchallenge"
         )
         created_flag = flag_service.create_flag(flag)
         assert created_flag is not None
-        assert created_flag.challange_id == flag.challange_id
+        assert created_flag.challenge_id == flag.challenge_id
         assert created_flag.task_id == flag.task_id
         assert created_flag.value == Crypto.hash_to_md5(flag.value)
 
@@ -47,7 +47,7 @@ class TestFlagCreate:
         flag = Flag(
             value="flag{INVALID-NAME}",
             task_id="firsttask",
-            challange_id="firstchallange",
+            challenge_id="firstchallenge",
         )
         created_flag = flag_service.create_flag(flag)
         assert created_flag is None
@@ -68,7 +68,7 @@ class TestFlagCreate:
 
         flag = Flag(
             value="",
-            challange_id="test",
+            challenge_id="test",
             task_id="test"
         )
         created_flag = flag_service.create_flag(flag)
@@ -77,19 +77,19 @@ class TestFlagCreate:
         insert_size = len(list(empty_flag_collection.find()))
         assert insert_size == 0
 
-    def test_flag_should_not_be_created_if_already_exists_per_challange_and_task(
+    def test_flag_should_not_be_created_if_already_exists_per_challenge_and_task(
         self, empty_flag_collection, connection_url
     ):
-        """Test create flag with existing task and challange ids combination should fail"""
+        """Test create flag with existing task and challenge ids combination should fail"""
         flag = Flag(
             value="flag{test}",
             task_id="firsttask",
-            challange_id="firstchallange",
+            challenge_id="firstchallenge",
         )
 
         empty_flag_collection.insert_one(
             {
-                "challange_id": flag.challange_id,
+                "challenge_id": flag.challenge_id,
                 "task_id": flag.task_id,
                 "value": flag.value,
             }

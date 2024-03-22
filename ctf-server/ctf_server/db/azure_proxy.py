@@ -59,17 +59,17 @@ class AzureProxy(StorageService):
             logging.debug("AZURE_PROXY::Container with id=%s found", self._DATABASE_ID)
         return container
 
-    def get_flag(self, challange_id: str, task_id: str) -> FlagDto:
-        """Get flag from storage based on task and challange ids"""
+    def get_flag(self, challenge_id: str, task_id: str) -> FlagDto:
+        """Get flag from storage based on task and challenge ids"""
         matching_flags = list(
             self._container.query_items(
                 query="""
                     SELECT * 
                     FROM record 
-                    WHERE record.partitionKey=@challange_id AND record.task_id=@task_id
+                    WHERE record.partitionKey=@challenge_id AND record.task_id=@task_id
                 """,
                 parameters=[
-                    {"name": "@challange_id", "value": challange_id},
+                    {"name": "@challenge_id", "value": challenge_id},
                     {"name": "@task_id", "value": task_id},
                 ],
             )
@@ -90,7 +90,7 @@ class AzureProxy(StorageService):
         return flags_dtos
 
     def create_flag(self, flag: FlagDto) -> FlagDto:
-        """Create flag for task and challange"""
+        """Create flag for task and challenge"""
         saved_flag = self._container.create_item(body=self._dto_to_dict(flag))
         logging.debug("AZURE_PROXY::Flag saved correctly id=%s", saved_flag["id"])
         return self._dict_to_dto(saved_flag)
@@ -103,10 +103,10 @@ class AzureProxy(StorageService):
         return self._dict_to_dto(updated_flag)
 
 
-    def delete_flag(self, challange_id: str, flag_id: str) -> bool:
-        """Delete flag based on challange and task ids"""
+    def delete_flag(self, challenge_id: str, flag_id: str) -> bool:
+        """Delete flag based on challenge and task ids"""
         try:
-            self._container.delete_item(item=flag_id, partition_key=challange_id)
+            self._container.delete_item(item=flag_id, partition_key=challenge_id)
             logging.debug("AZURE_PROXY::Flag with id=%s successfully deleted", flag_id)
             return True
         except (exceptions.CosmosResourceNotFoundError, exceptions.CosmosHttpResponseError):
@@ -116,8 +116,8 @@ class AzureProxy(StorageService):
     def _dto_to_dict(self, flag: FlagDto) -> dict:
         return {
             "id": flag.id,
-            "partitionKey": flag.challange_id,
-            "challange_id": flag.challange_id,
+            "partitionKey": flag.challenge_id,
+            "challenge_id": flag.challenge_id,
             "task_id": flag.task_id,
             "value": flag.value,
         }
@@ -125,7 +125,7 @@ class AzureProxy(StorageService):
     def _dict_to_dto(self, flag_dict: dict) -> FlagDto:
         return FlagDto(
             id=flag_dict["id"],
-            challange_id=flag_dict["challange_id"],
+            challenge_id=flag_dict["challenge_id"],
             task_id=flag_dict["task_id"],
             value=flag_dict["value"],
         )

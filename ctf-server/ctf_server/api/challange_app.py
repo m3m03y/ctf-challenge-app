@@ -1,4 +1,4 @@
-"""Setup for main challange app"""
+"""Setup for main challenge app"""
 
 import fastapi
 from . import flag_routes

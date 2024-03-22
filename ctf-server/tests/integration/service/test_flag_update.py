@@ -23,10 +23,10 @@ class TestFlagUpdate:
         flag = Flag(
             value="flag{test_updated_name}",
             task_id="firsttask",
-            challange_id="firstchallange",
+            challenge_id="firstchallenge",
         )
         updated_flag = flag_service.update_flag(flag)
-        assert updated_flag.challange_id == flag.challange_id
+        assert updated_flag.challenge_id == flag.challenge_id
         assert updated_flag.task_id == flag.task_id
         assert updated_flag.value == Crypto.hash_to_md5(flag.value)
 
@@ -46,7 +46,7 @@ class TestFlagUpdate:
         flag = Flag(
             value="flag{INVALID-NAME}",
             task_id="firsttask",
-            challange_id="firstchallange",
+            challenge_id="firstchallenge",
         )
         updated_flag = flag_service.update_flag(flag)
         assert updated_flag is None
@@ -55,7 +55,7 @@ class TestFlagUpdate:
         assert initial_size == updated_size
 
         existing_record = flag_collection_with_data.find(
-            {"challange_id": flag.challange_id, "task_id": flag.task_id}
+            {"challenge_id": flag.challenge_id, "task_id": flag.task_id}
         )[0]
         assert existing_record["value"] == Crypto.hash_to_md5("flag{test_1}")
 
@@ -72,7 +72,7 @@ class TestFlagUpdate:
         flag = Flag(
             value="flag{test_update}",
             task_id="secondtask",
-            challange_id="secondchallange",
+            challenge_id="secondchallenge",
         )
         updated_flag = flag_service.update_flag(flag)
         assert updated_flag is None

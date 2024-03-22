@@ -22,7 +22,7 @@ class FlagService:
 
     def submit_flag(self, flag: Flag) -> State:
         """
-        Takes one flag as an input, then based on its challange and task
+        Takes one flag as an input, then based on its challenge and task
         reference the correct flag value is requested from storage. Finally
         uses flag validator to check whether provided flag is correct for
         specific task.
@@ -33,26 +33,26 @@ class FlagService:
         Returns:
             state (State): state calculated based on user input
         """
-        actual_flag = self._storage_service.get_flag(flag.challange_id, flag.task_id)
+        actual_flag = self._storage_service.get_flag(flag.challenge_id, flag.task_id)
         return self._flag_validator.is_valid_flag(flag.value, actual_flag.value)
 
-    def get_flag(self, challange_id: str, task_id: id) -> Flag:
-        """Get flag per challange and task id
+    def get_flag(self, challenge_id: str, task_id: id) -> Flag:
+        """Get flag per challenge and task id
 
         Args:
-            challange_id (str): flag challange id
+            challenge_id (str): flag challenge id
             task (id): flag task id
 
         Returns:
             Flag: returns flag from storage
         """
-        logging.debug("Try to get a flag [challange_id=%s, task_id=%s]", challange_id, task_id)
-        flag_dto = self._storage_service.get_flag(challange_id, task_id)
+        logging.debug("Try to get a flag [challenge_id=%s, task_id=%s]", challenge_id, task_id)
+        flag_dto = self._storage_service.get_flag(challenge_id, task_id)
         if flag_dto is None:
             return None
         return Flag(
             value=flag_dto.value,
-            challange_id=flag_dto.challange_id,
+            challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
         )
 
@@ -65,7 +65,7 @@ class FlagService:
             flags.append(
                 Flag(
                     value=flag_dto.value,
-                    challange_id=flag_dto.challange_id,
+                    challenge_id=flag_dto.challenge_id,
                     task_id=flag_dto.task_id,
                 )
             )
@@ -88,38 +88,38 @@ class FlagService:
             logging.debug("FLAG_SERVICE::Flag creation failed - invalid flag format")
             return None
 
-        if self._storage_service.get_flag(flag.challange_id, flag.task_id) is not None:
+        if self._storage_service.get_flag(flag.challenge_id, flag.task_id) is not None:
             logging.debug("FLAG_SERVICE::Flag creation failed - flag already exists")
             return None
 
         flag_dto = FlagDto(
             id=str(int(dt.timestamp(dt.now()))),
             value=Crypto.hash_to_md5(flag.value),
-            challange_id=flag.challange_id,
+            challenge_id=flag.challenge_id,
             task_id=flag.task_id,
         )
         flag_dto = self._storage_service.create_flag(flag_dto)
         logging.debug("FLAG_SERVICE::Flag created successfully")
         return Flag(
             value=flag_dto.value,
-            challange_id=flag_dto.challange_id,
+            challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
         )
 
-    def remove_flag(self, challange_id: str, task_id: str) -> bool:
-        """Delete flag based on assigned challange and task ids
+    def remove_flag(self, challenge_id: str, task_id: str) -> bool:
+        """Delete flag based on assigned challenge and task ids
 
         Args:
-            challange_id (str): flag challange id
+            challenge_id (str): flag challenge id
             task_id (str): flag task id
 
         Returns:
             bool: returns True if flag was deleted successfully
         """
-        flag = self._storage_service.get_flag(challange_id, task_id)
+        flag = self._storage_service.get_flag(challenge_id, task_id)
         if flag is None:
             return False
-        return self._storage_service.delete_flag(challange_id, flag.id)
+        return self._storage_service.delete_flag(challenge_id, flag.id)
 
     def update_flag(self, flag: Flag):
         """Based on flag details provided by user updated existing object in storage
@@ -138,7 +138,7 @@ class FlagService:
             logging.debug("FLAG_SERVICE::Flag update failed - invalid flag format")
             return None
 
-        existing_flag = self._storage_service.get_flag(flag.challange_id, flag.task_id)
+        existing_flag = self._storage_service.get_flag(flag.challenge_id, flag.task_id)
         if existing_flag is None:
             logging.debug("FLAG_SERVICE::Flag update failed - flag does not exists")
             return None
@@ -151,6 +151,6 @@ class FlagService:
         logging.debug("FLAG_SERVICE::Flag updated successfully")
         return Flag(
             value=flag_dto.value,
-            challange_id=flag_dto.challange_id,
+            challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
         )
