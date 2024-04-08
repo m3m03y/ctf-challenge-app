@@ -16,13 +16,14 @@ app = func.FunctionApp()
 )
 def submit(req: func.HttpRequest) -> func.HttpResponse:
     """Based on user input request to check whether  flag is valid"""
-    logging.info("Python HTTP trigger function processed a request.")
-
+    logging.info("FUNCTION_APP: Request to submit flag")
+    
     try:
         req_body = req.get_json()
         value = req_body.get("value")
         task_id = req_body.get("task_id")
         challenge_id = req_body.get("challenge_id")
+        logging.info("FUNCTION_APP: New flag submitted: %s.", value)
     except ValueError:
         pass
 
@@ -43,6 +44,8 @@ def submit(req: func.HttpRequest) -> func.HttpResponse:
 )
 def health(req: func.HttpRequest) -> func.HttpResponse:
     """Function to validate whether Function is running"""
-    logging.info("Python HTTP trigger function processed a request.")
+    logging.info("FUNCTION_APP: health function requested")
 
+    if req.method != func.HttpMethod.GET:
+        logging.error("FUNCTION_APP: Invalid method usereq: func.HttpRequest")
     return func.HttpResponse("Function is healthy", status_code=200)
