@@ -2,8 +2,6 @@
 
 import logging
 import azure.functions as func
-from ctf_server import config
-from ctf_server.core import crypto
 from ctf_server.core.flag_validator_strategy import PlainInputStoredHashedStrategy
 from ctf_server.db.azure_proxy import AzureProxy
 from ctf_server.model.flag import Flag
