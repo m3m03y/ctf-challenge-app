@@ -1,4 +1,5 @@
 """Azure Function API for flag submitter"""
+
 import logging
 import azure.functions as func
 from ctf_server.core.flag_validator_strategy import PlainInputStoredHashedStrategy
@@ -10,7 +11,7 @@ from ctf_server.service.flag_service import FlagService
 app = func.FunctionApp()
 
 
-@app.route(route="submit", auth_level=func.AuthLevel.ANONYMOUS)
+@app.route(route="submit", auth_level=func.AuthLevel.ANONYMOUS, methods=[func.HttpMethod.POST])
 def submit(req: func.HttpRequest) -> func.HttpResponse:
     """Based on user input request to check whether  flag is valid"""
     logging.info("Python HTTP trigger function processed a request.")
