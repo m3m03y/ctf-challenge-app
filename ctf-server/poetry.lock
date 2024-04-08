@@ -76,6 +76,20 @@ files = [
 azure-core = ">=1.23.0,<2.0.0"
 
 [[package]]
+name = "azure-functions"
+version = "1.18.0"
+description = "Azure Functions for Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "azure-functions-1.18.0.tar.gz", hash = "sha256:4dc9f80d5550a1f7c874e1d4f64ace7f484406273246d4f90ff63c2a1b7f4950"},
+    {file = "azure_functions-1.18.0-py3-none-any.whl", hash = "sha256:10b392f7c3b325623869d58b38112d624534645a54f1c753dc04199abbcf7b4d"},
+]
+
+[package.extras]
+dev = ["coverage", "flake8 (>=4.0.1,<4.1.0)", "flake8-logging-format", "mypy", "pytest", "pytest-cov", "requests (==2.*)"]
+
+[[package]]
 name = "build"
 version = "1.1.1"
 description = "A simple, correct Python build frontend"
@@ -2029,4 +2043,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "b98a90dcd4ea3d091a540b7b4d362e42d6597eabdc6bfff58590a3ee3ea20308"
+content-hash = "0da17d4517ed1be0d17afe6f7a9ab0add078c8ef1c5d932f6d13e067580e885f"
