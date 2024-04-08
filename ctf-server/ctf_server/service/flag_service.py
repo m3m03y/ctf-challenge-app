@@ -34,6 +34,8 @@ class FlagService:
             state (State): state calculated based on user input
         """
         actual_flag = self._storage_service.get_flag(flag.challenge_id, flag.task_id)
+        if actual_flag is None:
+            return State.INVALID_FLAG
         return self._flag_validator.is_valid_flag(flag.value, actual_flag.value)
 
     def get_flag(self, challenge_id: str, task_id: id) -> Flag:
