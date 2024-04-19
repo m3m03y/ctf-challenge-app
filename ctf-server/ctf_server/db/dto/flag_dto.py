@@ -14,8 +14,10 @@ class FlagDto:
     task_nr: int
 
     def to_dict(self):
+        """Map flag dto to dictionary"""
         return self.__dict__
 
     @classmethod
     def from_dict(cls, dict_obj):
+        """Convert dictionary to FlagDto object"""
         return cls(**dict_obj)
