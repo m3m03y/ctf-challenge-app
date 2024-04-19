@@ -9,3 +9,4 @@ class FlagDto:
     value: str
     challenge_id: str
     task_id: str
+    task_nr: int

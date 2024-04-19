@@ -9,3 +9,4 @@ class Flag(BaseModel):
     value: str
     task_id: str
     challenge_id: str
+    task_nr: int

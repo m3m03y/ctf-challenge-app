@@ -48,7 +48,9 @@ class FlagService:
         Returns:
             Flag: returns flag from storage
         """
-        logging.debug("Try to get a flag [challenge_id=%s, task_id=%s]", challenge_id, task_id)
+        logging.debug(
+            "Try to get a flag [challenge_id=%s, task_id=%s]", challenge_id, task_id
+        )
         flag_dto = self._storage_service.get_flag(challenge_id, task_id)
         if flag_dto is None:
             return None
@@ -99,6 +101,7 @@ class FlagService:
             value=Crypto.hash_to_md5(flag.value),
             challenge_id=flag.challenge_id,
             task_id=flag.task_id,
+            task_nr=flag.task_nr,
         )
         flag_dto = self._storage_service.create_flag(flag_dto)
         logging.debug("FLAG_SERVICE::Flag created successfully")
@@ -156,3 +159,23 @@ class FlagService:
             challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
         )
+
+    def get_next_task(self, challenge_id: str, task_nr: int) -> str:
+        """Based on current task details get the number of next task
+
+        Args:
+            challenge_id (str): current challenge_id
+            task_nr (int): current task nr
+
+        Returns:
+            str: next task number
+        """
+
+        next_task_nr = task_nr + 1
+        next_task = self._storage_service.get_next_task(
+            challenge_id=challenge_id, task_nr=next_task_nr
+        )
+        if next_task is not None:
+            return next_task
+        logging.error("FLAG_SERVICE:: Cannot find next task")
+        return None

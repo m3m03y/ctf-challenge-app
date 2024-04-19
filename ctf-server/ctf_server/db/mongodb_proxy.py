@@ -81,11 +81,25 @@ class MongodbProxy(StorageService):
         )
         return False
 
+    def get_next_task(self, challenge_id: str, task_nr: int) -> str:
+        """Get next task id based on given task nr"""
+        next_task = self._collection.find_one(
+                filter={"challenge_id": challenge_id, "task_nr": task_nr},
+                projection={"_id": False, "task_nr": True},
+            )
+        if next_task is None:
+            logging.error("MONGODB_PROXY::No next task found")
+            return None
+        logging.debug("MONGODB_PROXY::Next task successfully found in DB")
+
+        return next_task["task_nr"]
+
     def _dto_to_document(self, flag_dto: FlagDto):
         return {
             "challenge_id": flag_dto.challenge_id,
             "task_id": flag_dto.task_id,
             "value": flag_dto.value,
+            "task_nr": flag_dto.task_nr,
         }
 
     def _document_to_dto(self, flag_doc) -> FlagDto:
@@ -94,4 +108,5 @@ class MongodbProxy(StorageService):
             challenge_id=flag_doc["challenge_id"],
             task_id=flag_doc["task_id"],
             value=flag_doc["value"],
+            task_nr=flag_doc["task_nr"],
         )

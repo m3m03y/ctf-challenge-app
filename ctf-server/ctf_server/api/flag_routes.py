@@ -17,7 +17,10 @@ async def submit_flag(flag: Flag, response: Response) -> dict:
     state = flag_service.submit_flag(flag)
     if state in (State.INVALID_FORMAT, State.INVALID_FLAG):
         response.status_code = status.HTTP_400_BAD_REQUEST
-    return {"state": state}
+        return {"stage": state}
+    
+    next_task = flag_service.get_next_task(flag.challenge_id, flag.task_nr)
+    return {"state": state, "task_nr": next_task}
 
 @router.post("/flag", status_code=status.HTTP_201_CREATED)
 async def create_flag(flag: Flag, response: Response) -> dict:

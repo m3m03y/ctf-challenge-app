@@ -26,3 +26,7 @@ class StorageService(ABC):
     @abstractmethod
     def delete_flag(self, challenge_id: str, flag_id: str) -> bool:
         """Delete flag based on challenge and task ids"""
+
+    @abstractmethod
+    def get_next_task(self, challenge_id: str, task_nr: int) -> str:
+        """Get the task id of next task given task nr"""
