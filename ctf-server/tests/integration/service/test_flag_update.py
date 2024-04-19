@@ -24,6 +24,7 @@ class TestFlagUpdate:
             value="flag{test_updated_name}",
             task_id="firsttask",
             challenge_id="firstchallenge",
+            task_nr=1,
         )
         updated_flag = flag_service.update_flag(flag)
         assert updated_flag.challenge_id == flag.challenge_id
@@ -47,6 +48,7 @@ class TestFlagUpdate:
             value="flag{INVALID-NAME}",
             task_id="firsttask",
             challenge_id="firstchallenge",
+            task_nr=1,
         )
         updated_flag = flag_service.update_flag(flag)
         assert updated_flag is None
@@ -73,6 +75,7 @@ class TestFlagUpdate:
             value="flag{test_update}",
             task_id="secondtask",
             challenge_id="secondchallenge",
+            task_nr=2,
         )
         updated_flag = flag_service.update_flag(flag)
         assert updated_flag is None

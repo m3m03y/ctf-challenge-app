@@ -22,13 +22,17 @@ class TestFlagCreate:
         )
 
         flag = Flag(
-            value="flag{test}", task_id="firsttask", challenge_id="firstchallenge"
+            value="flag{test}",
+            task_id="firsttask",
+            challenge_id="firstchallenge",
+            task_nr=1,
         )
         created_flag = flag_service.create_flag(flag)
         assert created_flag is not None
         assert created_flag.challenge_id == flag.challenge_id
         assert created_flag.task_id == flag.task_id
         assert created_flag.value == Crypto.hash_to_md5(flag.value)
+        assert created_flag.task_nr == 1
 
         insert_size = len(list(empty_flag_collection.find()))
         assert insert_size == 1
@@ -48,6 +52,7 @@ class TestFlagCreate:
             value="flag{INVALID-NAME}",
             task_id="firsttask",
             challenge_id="firstchallenge",
+            task_nr=1,
         )
         created_flag = flag_service.create_flag(flag)
         assert created_flag is None
@@ -66,11 +71,7 @@ class TestFlagCreate:
             PlainInputStoredHashedStrategy(),
         )
 
-        flag = Flag(
-            value="",
-            challenge_id="test",
-            task_id="test"
-        )
+        flag = Flag(value="", challenge_id="test", task_id="test", task_nr=1)
         created_flag = flag_service.create_flag(flag)
         assert created_flag is None
 
@@ -85,6 +86,7 @@ class TestFlagCreate:
             value="flag{test}",
             task_id="firsttask",
             challenge_id="firstchallenge",
+            task_nr=1,
         )
 
         empty_flag_collection.insert_one(
@@ -92,6 +94,7 @@ class TestFlagCreate:
                 "challenge_id": flag.challenge_id,
                 "task_id": flag.task_id,
                 "value": flag.value,
+                "task_nr": flag.task_nr,
             }
         )
         initial_size = len(list(empty_flag_collection.find()))

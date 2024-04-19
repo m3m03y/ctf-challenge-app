@@ -8,6 +8,7 @@ mongo_container = MongoDbContainer(image="mongo:latest")
 _DATABASE = "CtfLocal"
 _COLLECTION = "Flag"
 
+
 @pytest.fixture(scope="class", name="setup_mongo_container", autouse=True)
 def fixture_setup_mongo_container(request):
     """Creates mongo db container for tests and remove it at the end"""
@@ -38,20 +39,24 @@ def fixture_prepare_prepopulated_flag_collection(empty_flag_collection):
                 "challenge_id": "firstchallenge",
                 "task_id": "firsttask",
                 "value": Crypto.hash_to_md5("flag{test_1}"),
+                "task_nr": 1,
             },
             {
                 "challenge_id": "firstchallenge",
                 "task_id": "secondtask",
                 "value": Crypto.hash_to_md5("flag{test_2}"),
+                "task_nr": 2,
             },
             {
                 "challenge_id": "secondchallenge",
                 "task_id": "firsttask",
                 "value": Crypto.hash_to_md5("flag{test_2_1}"),
+                "task_nr": 1,
             },
         ]
     )
     yield collection
+
 
 @pytest.fixture(scope="function", name="connection_url")
 def fixture_connection_url():

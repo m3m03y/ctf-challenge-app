@@ -23,16 +23,19 @@ class TestFlagRemove:
                 value=Crypto.hash_to_md5("flag{test_1}"),
                 challenge_id="firstchallenge",
                 task_id="firsttask",
+                task_nr=1,
             ),
             Flag(
                 value=Crypto.hash_to_md5("flag{test_2}"),
                 challenge_id="firstchallenge",
                 task_id="secondtask",
+                task_nr=2,
             ),
             Flag(
                 value=Crypto.hash_to_md5("flag{test_2_1}"),
                 challenge_id="secondchallenge",
                 task_id="firsttask",
+                task_nr=1,
             ),
         ]
         initial_size = len(list(flag_collection_with_data.find()))
@@ -55,11 +58,12 @@ class TestFlagRemove:
             value=Crypto.hash_to_md5("flag{test_1}"),
             challenge_id="firstchallenge",
             task_id="firsttask",
+            task_nr=1,
         )
 
         initial_size = len(list(flag_collection_with_data.find()))
         assert initial_size == 3
-        
+
         flag = flag_service.get_flag(expected_flag.challenge_id, expected_flag.task_id)
         assert expected_flag == flag
 
