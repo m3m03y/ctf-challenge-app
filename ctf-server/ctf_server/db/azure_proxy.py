@@ -147,20 +147,9 @@ class AzureProxy(StorageService):
         return matching_tasks[0]["task_nr"]
 
     def _dto_to_dict(self, flag: FlagDto) -> dict:
-        return {
-            "id": flag.id,
-            "partitionKey": flag.challenge_id,
-            "challenge_id": flag.challenge_id,
-            "task_id": flag.task_id,
-            "value": flag.value,
-            "task_nr": flag.task_nr,
-        }
+        flag_dict = flag.to_dict()
+        flag_dict["partitionKey"] = flag.challenge_id
+        return flag_dict
 
     def _dict_to_dto(self, flag_dict: dict) -> FlagDto:
-        return FlagDto(
-            id=flag_dict["id"],
-            challenge_id=flag_dict["challenge_id"],
-            task_id=flag_dict["task_id"],
-            value=flag_dict["value"],
-            task_nr=flag_dict["task_nr"],
-        )
+        return FlagDto.from_dict(flag_dict)

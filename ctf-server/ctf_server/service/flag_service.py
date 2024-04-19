@@ -58,6 +58,7 @@ class FlagService:
             value=flag_dto.value,
             challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
+            task_nr=flag_dto.task_nr,
         )
 
     def get_all_flags(self) -> list[Flag]:
@@ -71,6 +72,7 @@ class FlagService:
                     value=flag_dto.value,
                     challenge_id=flag_dto.challenge_id,
                     task_id=flag_dto.task_id,
+                    task_nr=flag_dto.task_nr,
                 )
             )
         return flags
@@ -109,6 +111,7 @@ class FlagService:
             value=flag_dto.value,
             challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
+            task_nr=flag_dto.task_nr,
         )
 
     def remove_flag(self, challenge_id: str, task_id: str) -> bool:
@@ -158,6 +161,7 @@ class FlagService:
             value=flag_dto.value,
             challenge_id=flag_dto.challenge_id,
             task_id=flag_dto.task_id,
+            task_nr=flag_dto.task_nr,
         )
 
     def get_next_task(self, challenge_id: str, task_nr: int) -> str:
