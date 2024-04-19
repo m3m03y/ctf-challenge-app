@@ -142,7 +142,7 @@ class FlagService:
         logging.debug("FLAG_SERVICE::Flag updated successfully")
         return Flag.from_dto(flag_dto)
 
-    def get_next_task(self, challenge_id: str, task_nr: int) -> str:
+    def get_next_task(self, challenge_id: str, task_id: str) -> str:
         """Based on current task details get the number of next task
 
         Args:
@@ -152,12 +152,17 @@ class FlagService:
         Returns:
             str: next task number
         """
-
-        next_task_nr = task_nr + 1
+        current_flag = self._storage_service.get_flag(challenge_id, task_id)
+        if current_flag is None:
+            logging.error(
+                "FLAG_SERVICE::Cannot get next task based on not existing data"
+            )
+            return None
+        next_task_nr = current_flag.task_nr + 1
         next_task = self._storage_service.get_next_task(
             challenge_id=challenge_id, task_nr=next_task_nr
         )
         if next_task is not None:
             return next_task
-        logging.error("FLAG_SERVICE:: Cannot find next task")
+        logging.error("FLAG_SERVICE::Cannot find next task")
         return None

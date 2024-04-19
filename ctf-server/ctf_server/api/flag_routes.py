@@ -20,7 +20,7 @@ async def submit_flag(flag: Flag, response: Response) -> dict:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"stage": state}
 
-    next_task = flag_service.get_next_task(flag.challenge_id, flag.task_nr)
+    next_task = flag_service.get_next_task(flag.challenge_id, flag.task_id)
     return {"state": state, "task_nr": next_task}
 
 
