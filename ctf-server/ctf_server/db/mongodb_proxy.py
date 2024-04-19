@@ -85,14 +85,14 @@ class MongodbProxy(StorageService):
         """Get next task id based on given task nr"""
         next_task = self._collection.find_one(
             filter={"challenge_id": challenge_id, "task_nr": task_nr},
-            projection={"_id": False, "task_nr": True},
+            projection={"_id": False, "task_id": True},
         )
         if next_task is None:
             logging.error("MONGODB_PROXY::No next task found")
             return None
         logging.debug("MONGODB_PROXY::Next task successfully found in DB")
 
-        return next_task["task_nr"]
+        return next_task["task_id"]
 
     def _dto_to_document(self, flag_dto: FlagDto):
         flag_doc = flag_dto.to_dict()

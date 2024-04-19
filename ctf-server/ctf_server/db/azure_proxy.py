@@ -128,9 +128,9 @@ class AzureProxy(StorageService):
         matching_tasks = list(
             self._container.query_items(
                 query="""
-                    SELECT task_nr 
+                    SELECT record.task_id 
                     FROM record 
-                    WHERE record.partitionKey=@challenge_id AND record.task_id=@task_id
+                    WHERE record.partitionKey=@challenge_id AND record.task_nr=@task_nr
                 """,
                 parameters=[
                     {"name": "@challenge_id", "value": challenge_id},
@@ -144,7 +144,7 @@ class AzureProxy(StorageService):
             )
             return None
         logging.debug("AZURE_PROXY::Flag successfully read from DB")
-        return matching_tasks[0]["task_nr"]
+        return matching_tasks[0]["task_id"]
 
     def _dto_to_dict(self, flag: FlagDto) -> dict:
         flag_dict = flag.to_dict()
