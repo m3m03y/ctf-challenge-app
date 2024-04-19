@@ -10,7 +10,7 @@ class Flag(BaseModel):
     value: str
     task_id: str
     challenge_id: str
-    task_nr: int
+    task_nr: int = 0
 
     @classmethod
     def from_dto(cls, dto_obj: FlagDto):
