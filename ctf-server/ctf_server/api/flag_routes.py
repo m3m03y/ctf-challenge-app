@@ -31,6 +31,7 @@ async def create_flag(flag: Flag, response: Response) -> dict:
     flag = flag_service.create_flag(flag)
     if flag is None:
         response.status_code = status.HTTP_400_BAD_REQUEST
+
     return {"error": "CREATE_FAILED"} if flag is None else {"flag": flag}
 
 

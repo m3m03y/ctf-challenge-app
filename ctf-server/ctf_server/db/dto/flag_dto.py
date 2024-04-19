@@ -20,4 +20,10 @@ class FlagDto:
     @classmethod
     def from_dict(cls, dict_obj):
         """Convert dictionary to FlagDto object"""
-        return cls(**dict_obj)
+        return cls(
+            id=dict_obj["id"],
+            value=dict_obj["value"],
+            challenge_id=dict_obj["challenge_id"],
+            task_id=dict_obj["task_id"],
+            task_nr=dict_obj["task_nr"],
+        )
