@@ -54,12 +54,7 @@ class FlagService:
         flag_dto = self._storage_service.get_flag(challenge_id, task_id)
         if flag_dto is None:
             return None
-        return Flag(
-            value=flag_dto.value,
-            challenge_id=flag_dto.challenge_id,
-            task_id=flag_dto.task_id,
-            task_nr=flag_dto.task_nr,
-        )
+        return Flag.from_dto(flag_dto)
 
     def get_all_flags(self) -> list[Flag]:
         """Get all flags from storage"""
@@ -67,14 +62,7 @@ class FlagService:
         flag_dtos = self._storage_service.get_all_flags()
         flags = []
         for flag_dto in flag_dtos:
-            flags.append(
-                Flag(
-                    value=flag_dto.value,
-                    challenge_id=flag_dto.challenge_id,
-                    task_id=flag_dto.task_id,
-                    task_nr=flag_dto.task_nr,
-                )
-            )
+            flags.append(Flag.from_dto(flag_dto))
         return flags
 
     def create_flag(self, flag: Flag) -> Flag:
@@ -107,12 +95,7 @@ class FlagService:
         )
         flag_dto = self._storage_service.create_flag(flag_dto)
         logging.debug("FLAG_SERVICE::Flag created successfully")
-        return Flag(
-            value=flag_dto.value,
-            challenge_id=flag_dto.challenge_id,
-            task_id=flag_dto.task_id,
-            task_nr=flag_dto.task_nr,
-        )
+        return Flag.from_dto(flag_dto)
 
     def remove_flag(self, challenge_id: str, task_id: str) -> bool:
         """Delete flag based on assigned challenge and task ids
@@ -157,12 +140,7 @@ class FlagService:
             logging.debug("FLAG_SERVICE::Flag update failed")
             return None
         logging.debug("FLAG_SERVICE::Flag updated successfully")
-        return Flag(
-            value=flag_dto.value,
-            challenge_id=flag_dto.challenge_id,
-            task_id=flag_dto.task_id,
-            task_nr=flag_dto.task_nr,
-        )
+        return Flag.from_dto(flag_dto)
 
     def get_next_task(self, challenge_id: str, task_nr: int) -> str:
         """Based on current task details get the number of next task
